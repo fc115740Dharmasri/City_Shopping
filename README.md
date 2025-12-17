@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # E-Commerce Platform - MERN Stack
 
 A full-stack e-commerce platform built with the MERN stack (MongoDB, Express.js, React, Node.js) featuring user authentication, product management, shopping cart, and order processing.
@@ -265,3 +266,27 @@ For questions or support, please contact the development team.
 ---
 
 **Note**: This is a project for CSE2512 - Software Security. Make sure to review and implement additional security measures before deploying to production.
+=======
+# ShoppingSPREE_E-Commerce-Platform_CSE2512
+This is the repository for the E-Commerce Platform of Group 06 of Software Security Module - CSE2512
+
+To Get Started:
+
+Install Backend Dependencies:
+
+  cd backendnpm install
+  
+Install Frontend Dependencies:
+
+  cd frontendnpm install
+  
+Set up MongoDB (locally or use MongoDB Atlas)
+
+Run Backend:
+
+  cd backendnpm run dev
+  
+Run Frontend:
+
+  cd frontendnpm run dev
+>>>>>>> 9005c47e0964186630b07c2c10ca3fbe3bd1e71f
