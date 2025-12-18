@@ -24,6 +24,14 @@ const sequelize = require('./config/mysql');
 // Initialize express app
 const app = express();
 
+// VULNERABILITY: Information Exposure - X-Powered-By Header
+// Express by default sends "X-Powered-By: Express" header
+// This reveals the server technology stack to attackers
+// COMBINED WITH A09:2025: No logging/alerting when this header is exposed
+// Server misconfiguration goes undetected and unmonitored
+// Intentionally NOT disabled to demonstrate information disclosure vulnerability
+// In production, should use: app.disable('x-powered-by');
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -32,6 +40,10 @@ app.use(express.urlencoded({ extended: true }));
 // VULNERABILITY A09:2025: Insufficient Request Logging
 // This middleware logs only basic information without security context
 app.use(require('./middleware/requestLogger'));
+
+// VULNERABILITY A09:2025: Security Header Validation NOT Active
+// Does not monitor or log exposed security headers
+app.use(require('./middleware/securityHeaderValidator'));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
