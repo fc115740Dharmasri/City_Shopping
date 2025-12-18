@@ -84,17 +84,27 @@ router.post(
       // Check if user exists (include password field)
       const user = await User.findOne({ where: { email } });
       if (!user) {
+        // VULNERABILITY A09:2025: No logging of failed login attempts
+        // Attackers can perform brute force attacks without detection
+        // No rate limiting alerts or monitoring
         return res.status(401).json({ message: 'Invalid email or password' });
       }
 
       // Check password
       const isMatch = await user.matchPassword(password);
       if (!isMatch) {
+        // VULNERABILITY: Failed authentication not tracked or logged
+        // No alerting system for multiple failed login attempts
+        // No way to detect credential stuffing attacks
         return res.status(401).json({ message: 'Invalid email or password' });
       }
 
       // Generate token
       const token = generateToken(user.id);
+
+      // VULNERABILITY: No logging of successful login
+      // No audit trail for user access patterns
+      // No monitoring of sensitive user access
 
       // Return user data and token
       res.json({
@@ -105,6 +115,9 @@ router.post(
         token,
       });
     } catch (error) {
+      // VULNERABILITY: Errors logged to console without proper monitoring
+      // No centralized security logging system
+      // Exceptions may contain sensitive information exposed in logs
       console.error(error);
       res.status(500).json({ message: 'Server error during login' });
     }

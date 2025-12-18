@@ -29,6 +29,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// VULNERABILITY A09:2025: Insufficient Request Logging
+// This middleware logs only basic information without security context
+app.use(require('./middleware/requestLogger'));
+
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
@@ -39,9 +43,18 @@ app.get('/', (req, res) => {
 });
 
 // Error handling middleware
+// VULNERABILITY A09:2025: Insufficient Error Logging & Monitoring
+// - No structured logging of errors
+// - No alerting system
+// - No security context captured
+// - Errors may contain sensitive information exposed to clients
 app.use((err, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(statusCode);
+  res.statusCode = statusCode;
+  
+  // VULNERABILITY: Stack traces exposed in development mode
+  // No sanitization of error messages that might contain secrets
+  // No audit trail of error events for security monitoring
   res.json({
     message: err.message,
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
