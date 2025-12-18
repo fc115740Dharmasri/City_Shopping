@@ -1,15 +1,15 @@
 <<<<<<< HEAD
 # E-Commerce Platform - MERN Stack
 
-A full-stack e-commerce platform built with the MERN stack (MongoDB, Express.js, React, Node.js) featuring user authentication, product management, shopping cart, and order processing.
+A full-stack e-commerce platform built with Express.js, React, Node.js and MySQL (via Sequelize) featuring user authentication, product management, shopping cart, and order processing.
 
 ## Tech Stack
 
 ### Backend
 - **Node.js** - Runtime environment
 - **Express.js** - Web framework
-- **MongoDB** - Database
-- **Mongoose** - ODM
+-- **MySQL** - Database (via Sequelize)
+-- **Sequelize** - ORM
 - **JWT** - Authentication
 - **bcryptjs** - Password hashing
 - **express-validator** - Input validation

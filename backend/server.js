@@ -1,13 +1,25 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const connectDB = require('./config/db');
-
 // Load environment variables
 dotenv.config();
 
-// Connect to database
-connectDB();
+// Connect to MySQL via Sequelize (this backend is MySQL-only)
+const sequelize = require('./config/mysql');
+
+(async () => {
+  try {
+    await sequelize.authenticate();
+    // Import models to ensure they are registered (models/index.js will do this)
+    const models = require('./models');
+    // Sync all models
+    await models.sequelize.sync();
+    console.log('MySQL Connected and synchronized');
+  } catch (error) {
+    console.error('Unable to connect to MySQL:', error.message);
+    process.exit(1);
+  }
+})();
 
 // Initialize express app
 const app = express();

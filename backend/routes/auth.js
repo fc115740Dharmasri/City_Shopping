@@ -1,7 +1,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const { User } = require('../models');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
@@ -36,24 +36,20 @@ router.post(
       const { name, email, password } = req.body;
 
       // Check if user already exists
-      const userExists = await User.findOne({ email });
+      const userExists = await User.findOne({ where: { email } });
       if (userExists) {
         return res.status(400).json({ message: 'User already exists with this email' });
       }
 
       // Create new user
-      const user = await User.create({
-        name,
-        email,
-        password,
-      });
+      const user = await User.create({ name, email, password });
 
       // Generate token
-      const token = generateToken(user._id);
+      const token = generateToken(user.id);
 
       // Return user data and token
       res.status(201).json({
-        _id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,
@@ -86,7 +82,7 @@ router.post(
       const { email, password } = req.body;
 
       // Check if user exists (include password field)
-      const user = await User.findOne({ email }).select('+password');
+      const user = await User.findOne({ where: { email } });
       if (!user) {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
@@ -98,11 +94,11 @@ router.post(
       }
 
       // Generate token
-      const token = generateToken(user._id);
+      const token = generateToken(user.id);
 
       // Return user data and token
       res.json({
-        _id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,
@@ -120,9 +116,9 @@ router.post(
 // @access  Private
 router.get('/me', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findByPk(req.user.id);
     res.json({
-      _id: user._id,
+      id: user.id,
       name: user.name,
       email: user.email,
       role: user.role,

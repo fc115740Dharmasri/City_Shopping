@@ -9,69 +9,45 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-lg">
+    <header className="bg-white/80 backdrop-blur-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <h1 className="text-2xl font-bold text-primary-600">
-                E-Commerce
-              </h1>
-            </Link>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link
-                to="/"
-                className="border-transparent text-gray-700 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors"
-              >
-                Home
-              </Link>
-              <Link
-                to="/products"
-                className="border-transparent text-gray-700 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors"
-              >
-                Products
-              </Link>
+        <div className="flex items-center justify-between h-16">
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-md bg-accent-600 flex items-center justify-center text-white font-bold">SS</div>
+            <div>
+              <h1 className="text-lg font-bold text-slate-800">City Shopping</h1>
+              <p className="text-xs text-slate-500">Shop Here!!, live well</p>
+            </div>
+          </Link>
+
+          <div className="flex-1 mx-6 hidden md:block">
+            <div className="relative">
+              <input
+                aria-label="Search"
+                className="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-300"
+                placeholder="Search products, categories..."
+              />
+              <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-500 text-white px-3 py-1 rounded-md">Search</button>
             </div>
           </div>
-          <div className="flex items-center">
+
+          <div className="flex items-center space-x-4">
+            <Link to="/products" className="text-slate-700 hover:text-slate-900">Products</Link>
             {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-700 text-sm">
-                  Welcome, <span className="font-semibold">{user?.name}</span>
-                </span>
-                <Link
-                  to="/dashboard"
-                  className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Logout
-                </button>
-              </div>
+              <>
+                <Link to="/dashboard" className="text-slate-700 hover:text-slate-900">Dashboard</Link>
+                <button onClick={handleLogout} className="bg-accent-500 hover:bg-accent-600 text-white px-3 py-1.5 rounded-md">Logout</button>
+              </>
             ) : (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/login"
-                  className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Sign Up
-                </Link>
-              </div>
+              <>
+                <Link to="/login" className="text-slate-700 hover:text-slate-900">Login</Link>
+                <Link to="/register" className="bg-brand-500 hover:bg-brand-600 text-white px-3 py-1.5 rounded-md">Sign Up</Link>
+              </>
             )}
           </div>
         </div>
       </div>
-    </nav>
+    </header>
   );
 };
 
